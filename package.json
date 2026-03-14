@@ -1,0 +1,27 @@
+{
+  "name": "diceup-mobile",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@expo-google-fonts/russo-one": "^0.4.1",
+    "expo": "~55.0.6",
+    "expo-font": "^55.0.4",
+    "expo-status-bar": "~55.0.4",
+    "react": "19.2.0",
+    "react-dom": "^19.2.0",
+    "react-native": "0.83.2"
+  },
+  "private": true,
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0"
+  }
+}
