@@ -7,9 +7,11 @@ import quickImg from '../../assets/images/StopWatch.png';
 import challengeImg from '../../assets/images/ChallengeMode.png';
 import strategyImg from '../../assets/images/Strategy.png';
 import fallbackAvatar from '../../assets/images/avatar1.png';
+import ClassicArena from './ClassicArena';
 
 const Lobby = ({ username, avatar }) => {
     const [activeTab, setActiveTab] = useState('home');
+    const [gameScreen, setGameScreen] = useState(null);
 
     const renderHeader = () => (
         <div className="lobby-header">
@@ -50,7 +52,7 @@ const Lobby = ({ username, avatar }) => {
                     <p className="subtitle">Traditional 2-8 player free-for-all.</p>
                     <p className="desc">The first player to bring all tokens home wins.</p>
                 </div>
-                <button className="card-btn primary">PLAY NOW</button>
+                <button className="card-btn primary" onClick={() => setGameScreen('classic-arena')}>PLAY NOW</button>
             </div>
 
             {/* Tournament - Half Width */}
@@ -101,7 +103,7 @@ const Lobby = ({ username, avatar }) => {
                 </div>
                 <div>
                     <h3>STRATEGY MODE</h3>
-                    <p className="subtitle">Gate Block & Freeze Move abilities.</p>
+                    <p className="subtitle">Gate Block &amp; Freeze Move abilities.</p>
                     <p className="desc">Strategic gameplay with unique special abilities to crush foes.</p>
                 </div>
                 <button className="card-btn">USE TACTICS</button>
@@ -153,9 +155,9 @@ const Lobby = ({ username, avatar }) => {
             <h2>PROFILE</h2>
             <p>Manage your account and view progress.</p>
             <div className="tab-feature-list">
-                <div className="feature-item">👤 Customize Avatar & Name</div>
+                <div className="feature-item">👤 Customize Avatar &amp; Name</div>
                 <div className="feature-item">⭐ View Level (LVL 24)</div>
-                <div className="feature-item">🏆 Total Wins & History</div>
+                <div className="feature-item">🏆 Total Wins &amp; History</div>
                 <div className="feature-item">⚙️ Game Settings</div>
             </div>
         </div>
@@ -172,6 +174,11 @@ const Lobby = ({ username, avatar }) => {
         }
     };
 
+    // Show ClassicArena screen when triggered
+    if (gameScreen === 'classic-arena') {
+        return <ClassicArena onBack={() => setGameScreen(null)} />;
+    }
+
     return (
         <div className="lobby-container">
             {renderHeader()}
@@ -181,7 +188,7 @@ const Lobby = ({ username, avatar }) => {
 
             {/* Bottom Navigation */}
             <div className="lobby-nav">
-                
+
                 <div className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
                     <div className="nav-icon-wrapper">
                         <span className="nav-icon">
