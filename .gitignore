@@ -35,5 +35,6 @@ dist-ssr
 .pnpm-store
 
 # Vite output
-/dist
+# dist
+# /dist
 /build
