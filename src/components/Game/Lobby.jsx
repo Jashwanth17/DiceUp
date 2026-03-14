@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import '../../styles/lobby.css';
 
+import classicImg from '../../assets/images/ClassicArena.png';
+import tourneyImg from '../../assets/images/Tournament.png';
+import quickImg from '../../assets/images/StopWatch.png';
+import challengeImg from '../../assets/images/ChallengeMode.png';
+import strategyImg from '../../assets/images/Strategy.png';
+
 const Lobby = ({ username, avatar }) => {
     const [activeTab, setActiveTab] = useState('home');
 
@@ -31,43 +37,12 @@ const Lobby = ({ username, avatar }) => {
 
     const renderHome = () => (
         <div className="card-grid">
-            {/* SVG Shared Gradients */}
-            <svg width="0" height="0" style={{ position: 'absolute' }}>
-                <defs>
-                    <linearGradient id="dice-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#FFFFFF" />
-                        <stop offset="100%" stopColor="#00E5FF" />
-                    </linearGradient>
-                    <linearGradient id="team-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#00E5FF" />
-                        <stop offset="100%" stopColor="#005A66" />
-                    </linearGradient>
-                    <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#FFD700" />
-                        <stop offset="100%" stopColor="#FF6B00" />
-                    </linearGradient>
-                    <linearGradient id="sword-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#E2E8F0" />
-                        <stop offset="100%" stopColor="#94A3B8" />
-                    </linearGradient>
-                    <linearGradient id="head-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#00E5FF" />
-                        <stop offset="100%" stopColor="#8B5CF6" />
-                    </linearGradient>
-                </defs>
-            </svg>
 
             {/* Classic Arena - Full Width */}
             <div className="game-card full-width classic">
-                <div className="card-icon">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="url(#dice-grad)" className="premium-svg">
-                        <rect x="3" y="3" width="18" height="18" rx="4" ry="4" stroke="rgba(0,229,255,0.5)" strokeWidth="1"></rect>
-                        <circle cx="8" cy="8" r="1.5" fill="#0A1926"></circle>
-                        <circle cx="16" cy="16" r="1.5" fill="#0A1926"></circle>
-                        <circle cx="16" cy="8" r="1.5" fill="#0A1926"></circle>
-                        <circle cx="8" cy="16" r="1.5" fill="#0A1926"></circle>
-                        <circle cx="12" cy="12" r="1.5" fill="#0A1926"></circle>
-                    </svg>
+                <div className="card-bg-image">
+                    <img src={classicImg} alt="Classic Arena" />
+                    <div className="card-bg-gradient"></div>
                 </div>
                 <div>
                     <h3>CLASSIC ARENA</h3>
@@ -79,15 +54,9 @@ const Lobby = ({ username, avatar }) => {
 
             {/* Tournament - Half Width */}
             <div className="game-card half-width">
-                <div className="card-icon">
-                    <svg width="50" height="50" viewBox="0 0 24 24" fill="url(#team-grad)" className="premium-svg">
-                        <path d="M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" opacity="0.9"></path>
-                        <path d="M18 21a6 6 0 0 0-12 0h12z" opacity="0.9"></path>
-                        <path d="M19 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" opacity="0.5"></path>
-                        <path d="M23 21a5 5 0 0 0-8-2.67v2.67h8z" opacity="0.5"></path>
-                        <path d="M5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" opacity="0.5"></path>
-                        <path d="M1 21a5 5 0 0 1 8-2.67v2.67H1z" opacity="0.5"></path>
-                    </svg>
+                <div className="card-bg-image">
+                    <img src={tourneyImg} alt="Tournament" />
+                    <div className="card-bg-gradient"></div>
                 </div>
                 <div>
                     <h3>TOURNAMENT</h3>
@@ -98,10 +67,9 @@ const Lobby = ({ username, avatar }) => {
 
             {/* Quick Play - Half Width */}
             <div className="game-card half-width">
-                <div className="card-icon">
-                    <svg width="50" height="50" viewBox="0 0 24 24" fill="url(#bolt-grad)" className="premium-svg">
-                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-                    </svg>
+                <div className="card-bg-image">
+                    <img src={quickImg} alt="Quick Play" />
+                    <div className="card-bg-gradient"></div>
                 </div>
                 <div>
                     <h3>QUICK PLAY</h3>
@@ -112,10 +80,9 @@ const Lobby = ({ username, avatar }) => {
 
             {/* Challenge Mode - Full Width */}
             <div className="game-card full-width full-width-bot">
-                <div className="card-icon custom-sword">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="url(#sword-grad)" className="premium-svg">
-                        <path d="M18.8 3.2C18.1 2.5 17 2.5 16.3 3.2L12 7.5L7.7 3.2C7 2.5 5.9 2.5 5.2 3.2C4.5 3.9 4.5 5 5.2 5.7L9.5 10L3.2 16.3C2.5 17 2.5 18.1 3.2 18.8L5.2 20.8C5.9 21.5 7 21.5 7.7 20.8L14 14.5L18.3 18.8C19 19.5 20.1 19.5 20.8 18.8C21.5 18.1 21.5 17 20.8 16.3L16.5 12L20.8 7.7C21.5 7 21.5 5.9 20.8 5.2L18.8 3.2Z" />
-                    </svg>
+                <div className="card-bg-image">
+                    <img src={challengeImg} alt="Challenge Mode" />
+                    <div className="card-bg-gradient"></div>
                 </div>
                 <div>
                     <h3>CHALLENGE MODE</h3>
@@ -127,12 +94,9 @@ const Lobby = ({ username, avatar }) => {
 
             {/* Strategy Mode - Full Width */}
             <div className="game-card full-width full-width-bot">
-                <div className="card-icon custom-strategy">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="url(#head-grad)" className="premium-svg">
-                        <path d="M11.5,21.5 C6.80557963,21.4984242 3,17.6599691 3,12.941 C3,11.233 3.511,9.654 4.384,8.349 C4.569,7.399 5.341,6.671 6.307,6.467 C7.025,5.086 8.356,4 10,4 C11.968,4 13.626,5.335 14.125,7.151 C14.654,7.051 15.204,7 15.765,7 C18.656,7 21,9.344 21,12.235 C21,14.685 19.324,16.745 17.039,17.331 C17.013,17.387 16.983,17.441 16.953,17.494 L15.234,20.5 C14.542,21.71 13.5,21.5 12.5,21.5 Z" opacity="0.4"/>
-                        <path d="M14.5,12 C14.5,13.38 13.38,14.5 12,14.5 C10.62,14.5 9.5,13.38 9.5,12 C9.5,10.62 10.62,9.5 12,9.5 C13.38,9.5 14.5,10.62 14.5,12 Z"/>
-                        <path d="M15.464,13.565 L16.891,14.07 C16.591,14.914 16.03,15.632 15.289,16.126 L14.032,15.342 C13.435,15.703 12.74,15.93 12,16 L12,17.5 C11.083,17.5 10.222,17.202 9.502,16.703 L10.366,15.49 C9.791,15.143 9.293,14.673 8.904,14.114 L7.468,14.566 C7.091,13.784 6.9,12.915 6.942,12 L8.428,12 C8.461,11.237 8.7,10.518 9.106,9.889 L8.067,8.85 C8.683,8.086 9.489,7.5 10.428,7.169 L11.082,8.535 C11.714,8.232 12.428,8.058 13.18,8 L13.407,6.516 C14.34,6.671 15.201,7.03 15.939,7.55 L15.02,8.775 C15.545,9.255 15.968,9.843 16.257,10.5 L17.659,10.127 C17.893,10.966 17.936,11.87 17.778,12.732 L16.32,12.443 C16.13,12.871 15.84,13.25 15.464,13.565 Z M12,13.5 C12.828,13.5 13.5,12.828 13.5,12 C13.5,11.172 12.828,10.5 12,10.5 C11.172,10.5 10.5,11.172 10.5,12 C10.5,12.828 11.172,13.5 12,13.5 Z"/>
-                    </svg>
+                <div className="card-bg-image">
+                    <img src={strategyImg} alt="Strategy Mode" />
+                    <div className="card-bg-gradient"></div>
                 </div>
                 <div>
                     <h3>STRATEGY MODE</h3>
