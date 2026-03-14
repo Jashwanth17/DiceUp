@@ -8,10 +8,33 @@ import challengeImg from '../../assets/images/ChallengeMode.png';
 import strategyImg from '../../assets/images/Strategy.png';
 import fallbackAvatar from '../../assets/images/avatar1.png';
 import ClassicArena from './ClassicArena';
+import arenaBg from '../../assets/images/ArenaBackgroundPortrait.png';
 
 const Lobby = ({ username, avatar }) => {
     const [activeTab, setActiveTab] = useState('home');
     const [gameScreen, setGameScreen] = useState(null);
+
+    // Image Preloading & Sub-screen History Management
+    React.useEffect(() => {
+        // 1. Preload the large background image
+        const img = new Image();
+        img.src = arenaBg;
+
+        // 2. Manage internal gameScreen history
+        const handlePopState = (event) => {
+            if (event.state && event.state.gameScreen !== undefined) {
+                setGameScreen(event.state.gameScreen);
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
+    const navigateToGame = (screen) => {
+        window.history.pushState({ gameScreen: screen }, '', screen ? `#${screen}` : '#home');
+        setGameScreen(screen);
+    };
 
     const renderHeader = () => (
         <div className="lobby-header">
@@ -52,7 +75,7 @@ const Lobby = ({ username, avatar }) => {
                     <p className="subtitle">Traditional 2-8 player free-for-all.</p>
                     <p className="desc">The first player to bring all tokens home wins.</p>
                 </div>
-                <button className="card-btn primary" onClick={() => setGameScreen('classic-arena')}>PLAY NOW</button>
+                <button className="card-btn primary" onClick={() => navigateToGame('classic-arena')}>PLAY NOW</button>
             </div>
 
             {/* Tournament - Half Width */}
@@ -176,7 +199,9 @@ const Lobby = ({ username, avatar }) => {
 
     // Show ClassicArena screen when triggered
     if (gameScreen === 'classic-arena') {
-        return <ClassicArena onBack={() => setGameScreen(null)} />;
+        return <ClassicArena onBack={() => {
+            window.history.back(); // Use browser back to trigger popstate and setGameScreen(null)
+        }} />;
     }
 
     return (

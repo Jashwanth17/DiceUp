@@ -13,6 +13,29 @@ import avatar3 from '../assets/images/avatar3.png';
 
 function App() {
     const [currentScreen, setCurrentScreen] = useState('login');
+
+    // History API synchronization
+    useEffect(() => {
+        // Initial state
+        window.history.replaceState({ screen: 'login' }, '');
+
+        const handlePopState = (event) => {
+            if (event.state && event.state.screen) {
+                setCurrentScreen(event.state.screen);
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
+    const navigateTo = (screen) => {
+        if (screen !== currentScreen) {
+            window.history.pushState({ screen }, '', screen === 'home' ? '#home' : '');
+            setCurrentScreen(screen);
+        }
+    };
+
     const [showPassword, setShowPassword] = useState(false);
 
     // Auth States
@@ -90,7 +113,7 @@ function App() {
             case 'mobile':
                 return (
                     <MobileLogin
-                        onNavigate={setCurrentScreen}
+                        onNavigate={navigateTo}
                         mobilePhase={mobilePhase}
                         setMobilePhase={setMobilePhase}
                         phoneNumber={phoneNumber}
@@ -100,13 +123,13 @@ function App() {
                         onOtpChange={handleOtpChange}
                         timer={timer}
                         startOTPTimer={startOTPTimer}
-                        onVerify={() => setCurrentScreen('home')}
+                        onVerify={() => navigateTo('home')}
                     />
                 );
             case 'signup':
                 return (
                     <Signup
-                        onNavigate={setCurrentScreen}
+                        onNavigate={navigateTo}
                         onTogglePassword={() => setShowPassword(!showPassword)}
                         showPassword={showPassword}
                         formData={signupData}
@@ -119,13 +142,13 @@ function App() {
                         fileInputRef={fileInputRef}
                         agreedToTerms={agreedToTerms}
                         setAgreedToTerms={setAgreedToTerms}
-                        onSignup={() => setCurrentScreen('home')}
+                        onSignup={() => navigateTo('home')}
                     />
                 );
             case 'forgot-password':
                 return (
                     <ForgotPassword
-                        onNavigate={setCurrentScreen}
+                        onNavigate={navigateTo}
                         recoveryMethod={recoveryMethod}
                         setRecoveryMethod={setRecoveryMethod}
                         recoveryTarget={recoveryTarget}
@@ -137,16 +160,16 @@ function App() {
                         otp={otp}
                         otpRefs={otpRefs}
                         onOtpChange={handleOtpChange}
-                        onVerify={() => setCurrentScreen('home')}
+                        onVerify={() => navigateTo('home')}
                     />
                 );
             default:
                 return (
                     <Login
-                        onNavigate={setCurrentScreen}
+                        onNavigate={navigateTo}
                         onTogglePassword={() => setShowPassword(!showPassword)}
                         showPassword={showPassword}
-                        onLogin={() => setCurrentScreen('home')}
+                        onLogin={() => navigateTo('home')}
                     />
                 );
         }
