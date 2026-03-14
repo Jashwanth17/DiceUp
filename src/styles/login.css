@@ -8,19 +8,25 @@
     --surface-border: rgba(0, 229, 255, 0.2);
 }
 
+/* ========================================
+   GLOBAL FONT: Russo One applied to EVERYTHING
+   ======================================== */
+html {
+    font-family: 'Russo One', sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: inherit; /* Every element inherits Russo One */
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Russo One', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
     display: flex;
     justify-content: center;
     align-items: center;

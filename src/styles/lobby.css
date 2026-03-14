@@ -1,3 +1,10 @@
+/* ========================================
+   GLOBAL FONT: Russo One applied to EVERYTHING
+   ======================================== */
+html, body, * {
+    font-family: 'Russo One', sans-serif !important;
+}
+
 :root {
     --bg-dark: #040D14;
     /* Matches login bg */
@@ -32,7 +39,7 @@
     color: var(--text-primary);
     overflow: hidden;
     position: relative;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Russo One', sans-serif;
 }
 
 
