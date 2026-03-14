@@ -1,10 +1,11 @@
 import React from 'react';
+import diceIcon from '../../assets/images/dice-icon.webp';
 
 const Login = ({ onNavigate, onTogglePassword, showPassword, onLogin }) => {
     return (
         <>
             <div className="logo-container">
-                <img src="assets/images/dice-icon.webp" alt="DiceUp Icon" className="dice-icon" />
+                <img src={diceIcon} alt="DiceUp Icon" className="dice-icon" />
                 <h1>DICEUP</h1>
                 <p className="tagline">Play Together. Win Together.</p>
             </div>

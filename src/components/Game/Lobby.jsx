@@ -6,6 +6,7 @@ import tourneyImg from '../../assets/images/Tournament.png';
 import quickImg from '../../assets/images/StopWatch.png';
 import challengeImg from '../../assets/images/ChallengeMode.png';
 import strategyImg from '../../assets/images/Strategy.png';
+import fallbackAvatar from '../../assets/images/avatar1.png';
 
 const Lobby = ({ username, avatar }) => {
     const [activeTab, setActiveTab] = useState('home');
@@ -14,7 +15,7 @@ const Lobby = ({ username, avatar }) => {
         <div className="lobby-header">
             <div className="profile-section">
                 <div className="avatar-wrapper">
-                    <img src={avatar || 'assets/images/avatar1.png'} alt="Profile Avatar" className="lobby-avatar" />
+                    <img src={avatar || fallbackAvatar} alt="Profile Avatar" className="lobby-avatar" />
                     <div className="level-badge">LVL 24</div>
                 </div>
                 <div className="player-info">

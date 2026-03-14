@@ -6,6 +6,11 @@ import ForgotPassword from '../components/Auth/ForgotPassword';
 import MobileLogin from '../components/Auth/MobileLogin';
 import Lobby from '../components/Game/Lobby';
 
+// Static asset imports
+import avatar1 from '../assets/images/avatar1.png';
+import avatar2 from '../assets/images/avatar2.png';
+import avatar3 from '../assets/images/avatar3.png';
+
 function App() {
     const [currentScreen, setCurrentScreen] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +28,7 @@ function App() {
         password: '',
         gender: 'Male'
     });
-    const [selectedAvatar, setSelectedAvatar] = useState('assets/images/avatar1.png');
+    const [selectedAvatar, setSelectedAvatar] = useState(avatar1);
     const [uploadedAvatar, setUploadedAvatar] = useState(null);
     const [agreedToTerms, setAgreedToTerms] = useState(false);
     const fileInputRef = useRef(null);
@@ -75,9 +80,9 @@ function App() {
     };
 
     const avatars = [
-        'assets/images/avatar1.png',
-        'assets/images/avatar2.png',
-        'assets/images/avatar3.png'
+        avatar1,
+        avatar2,
+        avatar3
     ];
 
     const renderContent = () => {
