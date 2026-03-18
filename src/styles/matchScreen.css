@@ -49,14 +49,14 @@
 .match-content {
     flex: 1;
     display: flex;
-    /* Center as base, then push down with padding for a perfect "slight down" look */
+    /* Center as base, with only a tiny top offset to prevent bottom clipping */
     align-items: center; 
     justify-content: center; 
     position: relative;
     z-index: 50;
     width: 100%;
-    /* Added slight top padding to push it down responsively */
-    padding-top: 5vh; 
+    /* Reduced from 5vh to 2.5vh for better fit on long screens like Poco X6 */
+    padding-top: 2.5vh; 
     overflow: hidden; /* Safety lock */
 }
 
