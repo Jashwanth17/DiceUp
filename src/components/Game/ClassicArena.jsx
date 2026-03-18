@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/classicArena.css';
 import arenaBg from '../../assets/images/ArenaBackgroundPortrait.png';
+import ludoBoardImg from '../../assets/images/match/LudoBoardGradient.png';
 
 const playerOptions = [
     {
@@ -39,24 +40,50 @@ const playerOptions = [
         count: 5, label: '5 Players',
         icon: (
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="5" r="3"></circle>
-                <circle cx="16" cy="5" r="3"></circle>
-                <circle cx="5" cy="13" r="3" opacity="0.7"></circle>
-                <circle cx="12" cy="14" r="3"></circle>
-                <circle cx="19" cy="13" r="3" opacity="0.7"></circle>
+                <circle cx="12" cy="12" r="3"></circle>
+                <circle cx="12" cy="4" r="2" opacity="0.7"></circle>
+                <circle cx="12" cy="20" r="2" opacity="0.7"></circle>
+                <circle cx="4" cy="12" r="2" opacity="0.7"></circle>
+                <circle cx="20" cy="12" r="2" opacity="0.7"></circle>
+            </svg>
+        )
+    },
+    {
+        count: 6, label: '6 Players',
+        icon: (
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="8" cy="8" r="3"></circle>
+                <circle cx="16" cy="8" r="3"></circle>
+                <circle cx="4" cy="16" r="3" opacity="0.7"></circle>
+                <circle cx="12" cy="16" r="3"></circle>
+                <circle cx="20" cy="16" r="3" opacity="0.7"></circle>
             </svg>
         )
     },
 ];
 
-const ClassicArena = ({ onBack }) => {
+const ClassicArena = ({ onBack, onStartMatch }) => {
     const [selected, setSelected] = useState(null);
     const [matchmaking, setMatchmaking] = useState(false);
+
+    // Preload MatchScreen assets during matchmaking delay
+    useEffect(() => {
+        if (matchmaking) {
+            const preloadImages = [arenaBg, ludoBoardImg];
+            preloadImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+    }, [matchmaking]);
 
     const handleStartMatch = () => {
         if (!selected) return;
         setMatchmaking(true);
-        setTimeout(() => setMatchmaking(false), 3000);
+        setTimeout(() => {
+            setMatchmaking(false);
+            if (onStartMatch) onStartMatch(selected);
+        }, 3000);
     };
 
     return (
@@ -64,7 +91,6 @@ const ClassicArena = ({ onBack }) => {
             className="arena-container"
             style={{ backgroundImage: `url(${arenaBg})` }}
         >
-            {/* Header */}
             <div className="arena-header">
                 <button className="arena-back-btn" onClick={onBack}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -77,7 +103,6 @@ const ClassicArena = ({ onBack }) => {
                 </div>
             </div>
 
-            {/* Body */}
             <div className="arena-body">
                 <div className="arena-match-icon">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -90,13 +115,9 @@ const ClassicArena = ({ onBack }) => {
                 <h2 className="arena-section-title">Matchmaking</h2>
                 <p className="arena-section-sub">SELECT PLAYER COUNT</p>
 
-                {/* Structured Player Grid */}
                 <div className="player-grid">
-
-                    {/* Row 1: 2 Players | 3 Players */}
                     <button className={`player-card ${selected === 2 ? 'selected' : ''}`} onClick={() => setSelected(2)}>
                         <span className="player-card-icon">
-                            {/* Battle Duo Icon */}
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                                 <circle cx="9" cy="7" r="4" />
@@ -111,7 +132,6 @@ const ClassicArena = ({ onBack }) => {
 
                     <button className={`player-card ${selected === 3 ? 'selected' : ''}`} onClick={() => setSelected(3)}>
                         <span className="player-card-icon">
-                            {/* Triple Threat Icon */}
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="12" cy="5" r="3" />
                                 <path d="M12 8v3" opacity="0.6" />
@@ -125,10 +145,8 @@ const ClassicArena = ({ onBack }) => {
                         <span className="player-card-label">3 Players</span>
                     </button>
 
-                    {/* Row 2: 4 Players — centered */}
                     <button className={`player-card center-solo ${selected === 4 ? 'selected' : ''}`} onClick={() => setSelected(4)}>
                         <span className="player-card-icon">
-                            {/* Elite Squad Icon */}
                             <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="3" y="3" width="7" height="7" rx="1" />
                                 <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -144,10 +162,8 @@ const ClassicArena = ({ onBack }) => {
                         <span className="player-card-label">4 Players</span>
                     </button>
 
-                    {/* Row 3: 5 Players | 6 Players */}
                     <button className={`player-card ${selected === 5 ? 'selected' : ''}`} onClick={() => setSelected(5)}>
                         <span className="player-card-icon">
-                            {/* Grand Alliance Icon (5) */}
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="12" cy="12" r="3" />
                                 <circle cx="12" cy="4" r="2" opacity="0.7" />
@@ -163,25 +179,20 @@ const ClassicArena = ({ onBack }) => {
 
                     <button className={`player-card ${selected === 6 ? 'selected' : ''}`} onClick={() => setSelected(6)}>
                         <span className="player-card-icon">
-                            {/* Ultimate Arena Icon (6) */}
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="4" />
-                                <circle cx="5" cy="7" r="2" opacity="0.6" />
-                                <circle cx="19" cy="7" r="2" opacity="0.6" />
-                                <circle cx="5" cy="17" r="2" opacity="0.6" />
-                                <circle cx="19" cy="17" r="2" opacity="0.6" />
-                                <circle cx="12" cy="20" r="2" opacity="0.6" />
-                                <circle cx="12" cy="4" r="2" opacity="0.6" />
-                                <path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" strokeDasharray="2 2" opacity="0.3" />
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="8" cy="8" r="3" />
+                                <circle cx="16" cy="8" r="3" />
+                                <circle cx="20" cy="16" r="3" opacity="0.7" />
+                                <circle cx="12" cy="16" r="3" />
+                                <circle cx="4" cy="16" r="3" opacity="0.7" />
+                                <path d="M12 11v2" opacity="0.5" />
                             </svg>
                         </span>
                         <span className="player-card-label">6 Players</span>
                     </button>
-
                 </div>
             </div>
 
-            {/* Footer */}
             <div className="arena-footer">
                 <button
                     className={`start-match-btn ${!selected ? 'disabled' : ''}`}

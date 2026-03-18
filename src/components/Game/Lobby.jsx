@@ -8,6 +8,7 @@ import challengeImg from '../../assets/images/ChallengeMode.png';
 import strategyImg from '../../assets/images/Strategy.png';
 import fallbackAvatar from '../../assets/images/avatar1.png';
 import ClassicArena from './ClassicArena';
+import MatchScreen from './MatchScreen';
 import arenaBg from '../../assets/images/ArenaBackgroundPortrait.png';
 
 const Lobby = ({ username, avatar }) => {
@@ -199,9 +200,19 @@ const Lobby = ({ username, avatar }) => {
 
     // Show ClassicArena screen when triggered
     if (gameScreen === 'classic-arena') {
-        return <ClassicArena onBack={() => {
-            window.history.back(); // Use browser back to trigger popstate and setGameScreen(null)
-        }} />;
+        return <ClassicArena 
+            onBack={() => window.history.back()} 
+            onStartMatch={(count) => {
+                if (count === 4) {
+                    navigateToGame('match-screen');
+                }
+            }}
+        />;
+    }
+
+    // Show MatchScreen (Step 1: Background only)
+    if (gameScreen === 'match-screen') {
+        return <MatchScreen onBack={() => window.history.back()} />;
     }
 
     return (
