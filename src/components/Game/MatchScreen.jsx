@@ -4,8 +4,7 @@ import arenaBg from '../../assets/images/ArenaBackgroundPortrait.png';
 import ludoBoardImg from '../../assets/images/match/LudoBoardGradient.png';
 
 const MatchScreen = ({ onBack }) => {
-    const [angle, setAngle] = useState(0);
-    const [isDragging, setIsDragging] = useState(false);
+    const isDraggingRef = useRef(false);
     const boardRef = useRef(null);
     const startAngleRef = useRef(0);
     const currentAngleRef = useRef(0);
@@ -19,36 +18,57 @@ const MatchScreen = ({ onBack }) => {
         return radians * (180 / Math.PI);
     };
 
-    const handleStart = (clientX, clientY) => {
-        setIsDragging(true);
+    const updateBoardTransform = (angle) => {
+        if (boardRef.current) {
+            boardRef.current.style.transform = `scale(1.05) rotateZ(${angle}deg)`;
+        }
+    };
+
+    const handleStart = (clientX, clientY, e) => {
+        // Prevent default browser behavior (scrolling)
+        if (e && e.cancelable) e.preventDefault();
+        
+        isDraggingRef.current = true;
+        boardRef.current?.classList.add('grabbing');
+        
         const mouseAngle = getAngle(clientX, clientY);
         startAngleRef.current = mouseAngle - currentAngleRef.current;
     };
 
-    const handleMove = (clientX, clientY) => {
-        if (!isDragging) return;
+    const handleMove = (clientX, clientY, e) => {
+        if (!isDraggingRef.current) return;
+        
+        // Prevent default browser behavior (scrolling) during drag
+        if (e && e.cancelable) e.preventDefault();
+
         const mouseAngle = getAngle(clientX, clientY);
         const newAngle = mouseAngle - startAngleRef.current;
-        setAngle(newAngle);
+        
+        // DIRECT DOM UPDATE for maximum performance (60fps)
+        updateBoardTransform(newAngle);
         currentAngleRef.current = newAngle;
     };
 
     const handleEnd = () => {
-        setIsDragging(false);
+        isDraggingRef.current = false;
+        boardRef.current?.classList.remove('grabbing');
     };
 
     useEffect(() => {
-        const onMouseMove = (e) => handleMove(e.clientX, e.clientY);
-        const onTouchMove = (e) => handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        const onMouseMove = (e) => handleMove(e.clientX, e.clientY, e);
+        const onTouchMove = (e) => {
+            if (e.touches && e.touches[0]) {
+                handleMove(e.touches[0].clientX, e.touches[0].clientY, e);
+            }
+        };
         const onMouseUp = handleEnd;
         const onTouchEnd = handleEnd;
 
-        if (isDragging) {
-            window.addEventListener('mousemove', onMouseMove);
-            window.addEventListener('mouseup', onMouseUp);
-            window.addEventListener('touchmove', onTouchMove);
-            window.addEventListener('touchend', onTouchEnd);
-        }
+        // Use standard window listeners for a wider drag catchment
+        window.addEventListener('mousemove', onMouseMove, { passive: false });
+        window.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('touchmove', onTouchMove, { passive: false });
+        window.addEventListener('touchend', onTouchEnd);
 
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
@@ -56,7 +76,7 @@ const MatchScreen = ({ onBack }) => {
             window.removeEventListener('touchmove', onTouchMove);
             window.removeEventListener('touchend', onTouchEnd);
         };
-    }, [isDragging]);
+    }, []);
 
     return (
         <div className="match-container" style={{ backgroundImage: `url(${arenaBg})` }}>
@@ -69,19 +89,23 @@ const MatchScreen = ({ onBack }) => {
                 </button>
             </div>
 
-            {/* Main Content: Large Ludo Board with Drag-to-Rotate */}
+            {/* Main Content: Large Ludo Board with High-Performance Drag-to-Rotate */}
             <div className="match-content">
                 <div 
                     ref={boardRef}
-                    className={`ludo-board-wrapper ${isDragging ? 'grabbing' : ''}`}
+                    className="ludo-board-wrapper"
                     style={{ 
                         backgroundImage: `url(${ludoBoardImg})`,
-                        transform: `scale(1.05) rotateZ(${angle}deg)`
+                        transform: 'scale(1.05) rotateZ(0deg)' // Initial state
                     }}
-                    onMouseDown={(e) => handleStart(e.clientX, e.clientY)}
-                    onTouchStart={(e) => handleStart(e.touches[0].clientX, e.touches[0].clientY)}
+                    onMouseDown={(e) => handleStart(e.clientX, e.clientY, e)}
+                    onTouchStart={(e) => {
+                        if (e.touches && e.touches[0]) {
+                            handleStart(e.touches[0].clientX, e.touches[0].clientY, e);
+                        }
+                    }}
                 >
-                    {/* Centered Large Board with Drag Rotation */}
+                    {/* Direct DOM Rotation for zero-latency mobile feel */}
                 </div>
             </div>
         </div>
